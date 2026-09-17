@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from catalog.models import Product
 
 
 def home(request):
@@ -17,3 +19,14 @@ def contacts(request):
         # Здесь мы просто возвращаем простой ответ
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
     return render(request, "contacts.html")
+
+def products(request):
+    products = Product.objects.all()
+    context = {"products": products}
+    return render(request, "products.html", context)
+
+
+def product_details(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    context = {"product": product}
+    return render(request, "product_details.html", context)
