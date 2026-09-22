@@ -2,11 +2,12 @@ from django.contrib import admin
 from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
-from catalog.views import home, contacts
+from catalog.views import HomeView, ContactView, ProductDetailView, ProductListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('catalog.urls', namespace='catalog')),
+    path('blog/', include('blog.urls', namespace='blog')),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head><title>{% if object %}Редактировать пост{% else %}Создать пост{% endif %}</title></head>
+  <body>
+    <h1>{% if object %}Редактирование поста{% else %}Создание поста{% endif %}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Сохранить</button>
+    </form>
+
+    <p><a href="{% url 'blog:post-list' %}">Вернуться к списку</a></p>
+  </body>
+</html>
