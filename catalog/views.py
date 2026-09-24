@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, TemplateView
-
-from catalog.models import Product
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
+from .forms import ProductForm, CategoryForm
+from catalog.models import Product, Category
 
 
 class ProductListView(ListView):
@@ -26,6 +27,33 @@ class ContactView(View):
         name = request.POST.get('name')
         message = request.POST.get('message')
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
+
+'''делаем недостающие формы для CRUD'''
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:products')
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:products')
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:products')
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'catalog/category_form.html'
+
+
+
+
 
 
 '''ниже все старое'''
