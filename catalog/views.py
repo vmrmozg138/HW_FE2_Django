@@ -1,10 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
-from .forms import ProductForm, CategoryForm
-from catalog.models import Product, Category
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from catalog.models import Category, Product
+
+from .forms import CategoryForm, ProductForm
 
 
 class ProductListView(ListView):
@@ -20,45 +24,47 @@ class HomeView(TemplateView):
 
 
 class ContactView(View):
-    def get(self,request,*args,**kwargs):
-        return render(request,'catalog/contacts.html')
+    def get(self, request, *args, **kwargs):
+        return render(request, "catalog/contacts.html")
 
-    def post(self,request,*args,**kwargs):
-        name = request.POST.get('name')
-        message = request.POST.get('message')
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get("name")
+        message = request.POST.get("message")
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
 
-'''делаем недостающие формы для CRUD'''
-class ProductCreateView(CreateView):
+
+"""делаем недостающие формы для CRUD"""
+
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'catalog/product_form.html'
-    success_url = reverse_lazy('catalog:products')
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:products")
 
-class ProductUpdateView(UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin,UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'catalog/product_form.html'
-    success_url = reverse_lazy('catalog:products')
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy("catalog:products")
 
-class ProductDeleteView(DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
-    template_name = 'catalog/product_confirm_delete.html'
-    success_url = reverse_lazy('catalog:products')
+    template_name = "catalog/product_confirm_delete.html"
+    success_url = reverse_lazy("catalog:products")
 
-class CategoryCreateView(CreateView):
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
-    template_name = 'catalog/category_form.html'
+    template_name = "catalog/category_form.html"
 
 
+"""ниже все старое"""
 
-
-
-
-'''ниже все старое'''
-
-'''def home(request):
+"""def home(request):
     return render(request, "home.html")
 
 
@@ -83,4 +89,4 @@ def products(request):
 def product_details(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     context = {"product": product}
-    return render(request, "product_detail.html", context)'''
+    return render(request, "product_detail.html", context)"""

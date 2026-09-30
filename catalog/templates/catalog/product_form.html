@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <h2 class="mb-5">{% if product %}Редактирование{% else %}Создание{% endif %} продукта</h2>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary">{% if product %}Сохранить{% else %}Создать{% endif %}</button>
