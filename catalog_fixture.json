@@ -1,0 +1,83 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Электроника",
+        "description": "Электроника"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Одежда",
+        "description": "Одежда"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Iphone 17",
+        "description": "Apple Iphone 17 512gb silver",
+        "image": "",
+        "category": 1,
+        "price": "127000.00",
+        "created_at": "2026-09-14T21:10:26.738Z",
+        "updated_at": "2026-09-14T21:46:59.483Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Джинсы",
+        "description": "Джинсы синие",
+        "image": "",
+        "category": 2,
+        "price": "1200.00",
+        "created_at": "2026-09-14T21:11:09.936Z",
+        "updated_at": "2026-09-14T21:11:09.936Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "Куртка",
+        "description": "Куртка кожаная китайская",
+        "image": "",
+        "category": 2,
+        "price": "5800.00",
+        "created_at": "2026-09-14T21:12:00.121Z",
+        "updated_at": "2026-09-14T21:12:00.121Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "Часы Xiaomi",
+        "description": "Смарт-часы Xiaomi",
+        "image": "",
+        "category": 1,
+        "price": "4200.00",
+        "created_at": "2026-09-14T21:13:11.983Z",
+        "updated_at": "2026-09-14T21:13:11.983Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name": "Iphone 16",
+        "description": "Apple Iphone 16 512gb black",
+        "image": "",
+        "category": 1,
+        "price": "95000.00",
+        "created_at": "2026-09-14T21:16:31.341Z",
+        "updated_at": "2026-09-14T21:16:47.131Z"
+    }
+}
+]
