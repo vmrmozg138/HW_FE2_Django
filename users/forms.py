@@ -1,20 +1,21 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    BaseUserCreationForm,
+)
 from users.models import CustomUser
 
 
-# Форма регистрации
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(BaseUserCreationForm):
     phone_number = forms.CharField(
         max_length=15,
         required=False,
         help_text="Необязательное поле. Введите ваш номер телефона.",
     )
 
-    class Meta(UserCreationForm.Meta):
+    class Meta(BaseUserCreationForm.Meta):
         model = CustomUser
-        fields = ("email", "username")
+        fields = ("email", "phone_number")
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get("phone_number")
@@ -23,6 +24,5 @@ class CustomUserCreationForm(UserCreationForm):
         return phone_number
 
 
-# Форма авторизации
 class CustomAuthenticationForm(AuthenticationForm):
     pass
