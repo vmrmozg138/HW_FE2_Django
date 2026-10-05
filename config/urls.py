@@ -1,14 +1,15 @@
-from django.contrib import admin
 from django.conf import settings
-from django.urls import path, include
 from django.conf.urls.static import static
-from catalog.views import HomeView, ContactView, ProductDetailView, ProductListView
+from django.contrib import admin
+from django.urls import include, path
+
+from catalog.views import ContactView, HomeView, ProductDetailView, ProductListView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('catalog.urls', namespace='catalog')),
-    path('blog/', include('blog.urls', namespace='blog')),
-    path('users/', include('users.urls', namespace='users')),
+    path("admin/", admin.site.urls),
+    path("", include("catalog.urls", namespace="catalog")),
+    path("blog/", include("blog.urls", namespace="blog")),
+    path("users/", include("users.urls", namespace="users")),
 ]
 
 if settings.DEBUG:

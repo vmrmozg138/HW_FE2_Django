@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import CustomUser
+
 # Create your models here.
 
 
@@ -22,6 +24,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+
     name = models.CharField(
         max_length=100, verbose_name="Название", help_text="Введите название продукта"
     )
@@ -47,6 +50,17 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    is_published = models.BooleanField(default=False)
+
+    owner = models.ForeignKey(
+        CustomUser,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Владелец продукта",
+        help_text="Укажите владельца продукта",
+    )
+
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
@@ -55,6 +69,7 @@ class Product(models.Model):
             models.Index(fields=["price"]),
             models.Index(fields=["category", "price"]),
         ]
+        permissions = [("can_unpublish_product", "Can unpublish product")]
 
     def __str__(self) -> str:
         return f"{self.name} ({self.category.name})"
