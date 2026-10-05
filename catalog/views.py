@@ -1,6 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
@@ -11,14 +12,24 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 from catalog.models import Category, Product
+
 from .forms import CategoryForm, ProductForm
 from .mixins import OwnerRequiredMixin
+from .services import ProductService, get_products_from_cache
 
 
 class ProductListView(ListView):
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        return context
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ProductDetailView(DetailView):
@@ -103,6 +114,16 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = "catalog/category_form.html"
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = "catalog/category_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = ProductService.get_products_by_category(self.object)
+        return context
 
 
 """ниже все старое"""

@@ -1,17 +1,19 @@
 from django.contrib import admin
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from catalog.apps import MyappConfig
 from catalog.views import (
     CategoryCreateView,
+    CategoryDetailView,
     ContactView,
     HomeView,
     ProductCreateView,
     ProductDeleteView,
     ProductDetailView,
     ProductListView,
-    ProductUpdateView,
     ProductTogglePublishView,
+    ProductUpdateView,
 )
 
 app_name = MyappConfig.name
@@ -19,7 +21,8 @@ app_name = MyappConfig.name
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
     path("contacts/", ContactView.as_view(), name="contacts"),
-    path("products/", ProductListView.as_view(), name="products"),
+    path("products/", cache_page(60 * 5)(ProductListView.as_view()), name="products"),
+    path("category/<int:pk>", CategoryDetailView.as_view(), name="category_detail"),
     path("products/create", ProductCreateView.as_view(), name="product_create"),
     path(
         "products/create_category", CategoryCreateView.as_view(), name="category_create"

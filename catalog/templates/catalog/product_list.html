@@ -7,6 +7,7 @@
         >Добавить новый товар</a>
      <a href="{% url 'catalog:category_create' %}" class="btn btn-secondary my-2"
         >Создать новую категорию</a>
+     {% include 'catalog/includes/category_menu.html' %}
     </p>
 {% endif %}
 {% endblock %}
